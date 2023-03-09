@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const configuration = new Configuration({
     organization: "org-u6MOo3CKEN48sjobAb7wi5Ww",
-    apiKey: "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",
+    apiKey: "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",
 });
 const openai = new OpenAIApi(configuration);
 
@@ -69,7 +69,7 @@ async function ask(p){
     const settings = {
         method: 'POST',
         headers: {
-            'Authorization': 'Bearer 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',
+            'Authorization': 'Bearer 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',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)

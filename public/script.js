@@ -40,7 +40,7 @@ async function ask(){
         body: JSON.stringify(data)
     };
     try {
-        const fetchResponse = await fetch(`http://localhost:9000/`, settings);
+        const fetchResponse = await fetch(`/`, settings);
         const data = await fetchResponse.json();
         if(textToSpeech){
             say(data.message);
