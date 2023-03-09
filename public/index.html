@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>Chatbot</title>
+        <script src="script.js" defer></script>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <h1>BL360 Support Chat</h1>
+        <!-- <div class="footer">
+            <span>
+              Powered by OpenAI
+            </span>
+        </div>  -->
+        <div id="outer">
+            <div class="options">
+                <div><span id="voiceSpan">Assistant voice OFF&nbsp;</span><input id="sound" type="checkbox"></div>
+                <div id="assistantSelectDiv">
+                    Assistant
+                    <select id="assistantSelector">
+                        <option value="Aria" selected>Aria (US)</option>
+                        <option value="Eric">Eric (US)</option>
+                        <option value="Olivia">Olivia (UK)</option>
+                        <option value="Thomas">Thomas (UK)</option>
+                    </select>
+                </div>
+                <div id="modeSelectDiv">
+                    Mode
+                    <select id="modeSelector">
+                        <option value="1" selected>Classic</option>
+                        <option value="2">Conversation</option>
+                    </select>
+                </div>
+            </div>
+            <div id="response">
+
+            </div>
+            <div class="inputs">
+                <input type="text" id="chatbox" placeholder="Type here ">
+                <span id="listeningTag" hidden>Listening...</span>
+                <input type="image" id="speechInputButton" src="microphone-logo-png.png"/>
+                <input type="submit" id="submitButton" value="Send >">
+            <div>  
+        </div>
+        
+    </body>
+</html>
