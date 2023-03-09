@@ -80,6 +80,11 @@ async function ask(p){
         const fetchResponse = await fetch(`https://api.openai.com/v1/chat/completions`, settings);
         const obj = await fetchResponse.json();
         chat.push( {"role":"assistant", "content": obj.choices[0].message.content});
+        console.log(chat);
+        if(chat.length>=7){
+            chat=chat.slice(0,1);
+            return obj.choices[0].message.content;
+        }
         return obj.choices[0].message.content;  
     } catch (e) {
         console.log(e);
