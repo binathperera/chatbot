@@ -40,7 +40,7 @@ async function ask(){
         body: JSON.stringify(data)
     };
     try {
-        const fetchResponse = await fetch("https://octopus-app-t6zqf.ondigitalocean.app/", settings);
+        const fetchResponse = await fetch("/", settings,5000);
         const data = await fetchResponse.json();
         if(textToSpeech){
             say(data.message);

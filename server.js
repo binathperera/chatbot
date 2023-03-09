@@ -15,7 +15,7 @@ app.use(cors());
 
 const configuration = new Configuration({
     organization: "org-u6MOo3CKEN48sjobAb7wi5Ww",
-    apiKey: "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",
+    apiKey: "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",
 });
 const openai = new OpenAIApi(configuration);
 
@@ -71,7 +71,7 @@ async function ask(p){
     const settings = {
         method: 'POST',
         headers: {
-            'Authorization': 'Bearer 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',
+            'Authorization': 'Bearer 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',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
