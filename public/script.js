@@ -4,23 +4,6 @@ let mode='1';
 let voiceStatusSpan=document.getElementById("voiceSpan");
 
 let sound=document.getElementById("sound");
-function timeout(ms, promise) {
-    return new Promise((resolve, reject) => {
-      const timer = setTimeout(() => {
-        reject(new Error('TIMEOUT'))
-      }, ms)
-  
-      promise
-        .then(value => {
-          clearTimeout(timer)
-          resolve(value)
-        })
-        .catch(reason => {
-          clearTimeout(timer)
-          reject(reason)
-        })
-    })
-  }
 sound.addEventListener('change',function(){
     textToSpeech=this.checked;
     if(textToSpeech){
@@ -57,10 +40,8 @@ async function ask(){
         body: JSON.stringify(data)
     };
     try {
-        let data;
-        await timeout(5000,fetch("/", settings).then(async function(fetchResponse){
-            data = await fetchResponse.json();
-        }));
+        const fetchResponse = await fetch("/", settings);
+        const data = await fetchResponse.json();
         if(textToSpeech){
             say(data.message);
         }
