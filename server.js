@@ -4,12 +4,14 @@ const { Configuration, OpenAIApi } = require("openai");
 const bodyParser = require('body-parser');
 const fetch= require('node-fetch');
 const fs = require("fs");
+const cors= require('cors');
 const csv = require("csv-parser");
 const port=9000;
 
 const app=express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 
 const configuration = new Configuration({
     organization: "org-u6MOo3CKEN48sjobAb7wi5Ww",
