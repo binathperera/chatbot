@@ -35,7 +35,11 @@ var options = {
 		}
 	}
 };
-var connection = mysql.createConnection({
+var connection = mysql.createPool({
+    connectionLimit : 1000,
+    connectTimeout  : 60 * 60 * 1000,
+    acquireTimeout  : 60 * 60 * 1000,
+    timeout         : 60 * 60 * 1000,
     host     : dbhost,
     user     : dbuser,
     password : dbpassword,
@@ -53,7 +57,7 @@ var connection = mysql.createConnection({
 // };
 
 var sessionStore = new MySQLStore(options,connection);
-connection.connect();
+//connection.connect();
 
 const app=express();
 app.use(bodyParser.json());
