@@ -14,7 +14,7 @@ const appServerPort=9000;
 const dbhost='db-mysql-chatbot-do-user-13715267-0.b.db.ondigitalocean.com';
 const dbport=25060;
 const dbuser= 'doadmin';
-const dbpassword='AVNS_0MLK1no9DjGyPHDI5ZY';
+const dbpassword='AVNS_5utwU9uRL-2DzHTxZWv';
 const databaseName='chatbot';
 
 var options = {
