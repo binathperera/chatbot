@@ -2,7 +2,6 @@ let textToSpeech=false;
 let assistant='Aria';
 let mode='1';
 let voiceStatusSpan=document.getElementById("voiceSpan");
-
 let sound=document.getElementById("sound");
 sound.addEventListener('change',function(){
     textToSpeech=this.checked;
@@ -19,16 +18,61 @@ chatbox.addEventListener('keypress',function(event){
         chatbox.value="";
     }
 });
-
 let submitButton=document.getElementById("submitButton");
 submitButton.addEventListener('click',function(){
     ask(chatbox.text);
     chatbox.value="";
 });
+
+let speechButton=document.getElementById("speechInputButton");
+speechButton.addEventListener('click',function(){
+    recognition.start();
+});
+
+const fetchHistorySettings = {
+    headers: {
+        'Accept': 'application/json',
+    },
+};
+load();
+
+var objDiv = document.getElementById("response");
+async function load(){
+    const fetchChatHistory = await fetch("/history", fetchHistorySettings);
+    const chatHistory = await fetchChatHistory.json();
+    console.log(chatHistory);
+    for(let i=0;i<chatHistory.length-1;i++){
+        console.log(chatHistory[i]);
+        objDiv.innerHTML += "<b style='color:lightblue'>You&nbsp;</b> : "+ chatHistory[i].prompt+"<br><br>";
+        objDiv.innerHTML += "<b style='color:lightgreen'>"+assistant+" </b>: "+ chatHistory[i].response+"<br><br>";
+    }
+    if(chatHistory[chatHistory.length-1].clear==true){
+        window.alert("Please clear the chat");
+        submitButton.hidden=true;
+        chatbox.hidden=true;
+        speechButton.hidden=true;
+    }
+}
+let clearButton=document.getElementById("clearButton");
+clearButton.addEventListener('click',function(){
+    objDiv.innerHTML="";
+    submitButton.hidden=false;
+    chatbox.hidden=false;
+    speechButton.hidden=false;
+    sendDeleteCommand();
+});
+async function sendDeleteCommand(){
+    const deleteSettings = {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json'
+        }
+    };
+    fetch("/delete", deleteSettings);
+}
 async function ask(){
     let prompt=document.getElementById('chatbox').value;
     data= {"prompt":prompt,"assistant":assistant};
-    var objDiv = document.getElementById("response");
     objDiv.innerHTML += "<b style='color:lightblue'>You&nbsp;</b> : "+ prompt+"<br><br>";
     objDiv.scrollTop = objDiv.scrollHeight;
     const settings = {
@@ -46,7 +90,13 @@ async function ask(){
             say(data.message);
         }
         objDiv.innerHTML += "<b style='color:lightgreen'>"+assistant+" </b>: "+ data.message+"<br><br>";
-        objDiv.scrollTop = objDiv.scrollHeight;     
+        objDiv.scrollTop = objDiv.scrollHeight;
+        if(data.clear){
+            window.alert("Please clear the chat");
+            submitButton.hidden=true;
+            chatbox.hidden=true;
+            speechButton.hidden=true;
+        }     
     } catch (e) {
         return e;
     }
@@ -79,7 +129,7 @@ function say(m) {
 try {
     var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     var recognition = new SpeechRecognition();
-}
+}  
 catch(e) {
     console.error(e);
     $('.no-browser-support').show();
@@ -101,7 +151,6 @@ recognition.onerror = function(event) {
     };
 }
 recognition.onresult = function(event) {
-
     // event is a SpeechRecognitionEvent object.
     // It holds all the lines we have captured so far. 
     // We only need the current one.
@@ -118,10 +167,7 @@ recognition.onresult = function(event) {
         chatbox.value="";
     }
 }
-let speechButton=document.getElementById("speechInputButton");
-speechButton.addEventListener('click',function(){
-    recognition.start();
-});
+
 
 let assistantSelector=document.getElementById("assistantSelector");
 assistantSelector.addEventListener('change',function(event){

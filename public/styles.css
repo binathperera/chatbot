@@ -38,10 +38,10 @@ input[type=submit]{
     font-size: large;
     background-color: rgb(64, 55, 132);
     height: 5vh;
+    margin-left: 10px;
 }
 input[type=image]{
     border:0px;
-    margin-right: 10px;
     color: white;
     font-size: large;
     background-color: rgb(64, 55, 132);
