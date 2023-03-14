@@ -36,17 +36,14 @@ var options = {
 	}
 };
 var connection = mysql.createConnection({
-    connectionLimit : 1000,
     host     : dbhost,
     user     : dbuser,
     password : dbpassword,
     port: dbport,
     database : databaseName,
-    ssl  : {
-        ca : fs.readFileSync(__dirname + '/certs/ca-certificate.crt')
-    },
+    
   });
-  
+connection.connect();
 // var del = connection._protocol._delegateError;
 // connection._protocol._delegateError = function(err, sequence){
 //   if (err.fatal) {
@@ -55,8 +52,7 @@ var connection = mysql.createConnection({
 //   return del.call(this, err, sequence);
 // };
 
-var sessionStore = new MySQLStore(options,connection);
-connection.connect();
+var sessionStore = new MySQLStore(options);
 
 const app=express();
 app.use(bodyParser.json());
