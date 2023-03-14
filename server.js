@@ -14,8 +14,8 @@ const appServerPort=9000;
 const dbhost='db-mysql-chatbot-do-user-13715267-0.b.db.ondigitalocean.com';
 const dbport=25060;
 const dbuser= 'doadmin';
-const dbpassword='AVNS_5utwU9uRL-2DzHTxZWv';
-const databaseName='chatbot';
+const dbpassword='AVNS_4G-zvdIRp1L79lX2SV2';
+const databaseName='defaultdb';
 
 var options = {
 	host: dbhost,
@@ -35,19 +35,18 @@ var options = {
 		}
 	}
 };
-var connection = mysql.createPool({
+var connection = mysql.createConnection({
     connectionLimit : 1000,
-    connectTimeout  : 60 * 60 * 1000,
-    acquireTimeout  : 60 * 60 * 1000,
-    timeout         : 60 * 60 * 1000,
     host     : dbhost,
     user     : dbuser,
     password : dbpassword,
+    port: dbport,
     database : databaseName,
     ssl  : {
         ca : fs.readFileSync(__dirname + '/certs/ca-certificate.crt')
     },
   });
+  
 // var del = connection._protocol._delegateError;
 // connection._protocol._delegateError = function(err, sequence){
 //   if (err.fatal) {
@@ -57,7 +56,7 @@ var connection = mysql.createPool({
 // };
 
 var sessionStore = new MySQLStore(options,connection);
-//connection.connect();
+connection.connect();
 
 const app=express();
 app.use(bodyParser.json());
