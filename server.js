@@ -15,7 +15,7 @@ const dbhost='db-mysql-chatbot-do-user-13715267-0.b.db.ondigitalocean.com';
 const dbport=25060;
 const dbuser= 'doadmin';
 const dbpassword='AVNS_4G-zvdIRp1L79lX2SV2';
-const databaseName='defaultdb';
+const databaseName='chatbot';
 
 var options = {
 	host: dbhost,
@@ -40,8 +40,7 @@ var connection = mysql.createConnection({
     user     : dbuser,
     password : dbpassword,
     port: dbport,
-    database : databaseName,
-    
+    database : databaseName, 
   });
 connection.connect();
 // var del = connection._protocol._delegateError;
@@ -52,7 +51,7 @@ connection.connect();
 //   return del.call(this, err, sequence);
 // };
 
-var sessionStore = new MySQLStore(options);
+var sessionStore = new MySQLStore(options,connection);
 
 const app=express();
 app.use(bodyParser.json());

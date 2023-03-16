@@ -32,7 +32,7 @@ speechButton.addEventListener('click',function(){
 const fetchHistorySettings = {
     headers: {
         'Accept': 'application/json',
-    },
+    }, 
 };
 load();
 
