@@ -1,4 +1,3 @@
-
 const express = require('express');
 const { Configuration, OpenAIApi } = require("openai");
 const bodyParser = require('body-parser');
@@ -9,20 +8,15 @@ const csv = require("csv-parser");
 const session = require("express-session");
 const mysql = require("mysql");
 const MySQLStore = require('express-mysql-session')(session);
-const apphost='localhost';
-const appServerPort=9000;
-const dbhost='db-mysql-chatbot-do-user-13715267-0.b.db.ondigitalocean.com';
-const dbport=25060;
-const dbuser= 'doadmin';
-const dbpassword='AVNS_4G-zvdIRp1L79lX2SV2';
-const databaseName='chatbot';
+const port=9000;
+
 
 var options = {
-	host: dbhost,
-	port: dbport,
-	user: dbuser,
-	password: dbpassword,
-	database: databaseName,   
+	host: '43.250.243.204',
+	port: 3306,
+	user: 'root',
+	password: 'root',
+	database: 'chatbot',   
     clearExpired: true,
     expiration: 1000*60*60*24,
     createDatabaseTable: true,
@@ -35,23 +29,14 @@ var options = {
 		}
 	}
 };
+var sessionStore = new MySQLStore(options);
 var connection = mysql.createConnection({
-    host     : dbhost,
-    user     : dbuser,
-    password : dbpassword,
-    port: dbport,
-    database : databaseName, 
+    host     : '43.250.243.204',
+    user     : 'root',
+    password : 'root',
+    database : 'chatbot'
   });
 connection.connect();
-// var del = connection._protocol._delegateError;
-// connection._protocol._delegateError = function(err, sequence){
-//   if (err.fatal) {
-//     console.trace('fatal error: ' + err.message);
-//   }
-//   return del.call(this, err, sequence);
-// };
-
-var sessionStore = new MySQLStore(options,connection);
 
 const app=express();
 app.use(bodyParser.json());
@@ -117,8 +102,8 @@ app.post('/',async (req,res)=>{
 app.get('/delete',async (req,res)=>{
     deleteMessages(req.sessionID);
 });
-app.listen(appServerPort, ()=>{
-    console.log(`http://${apphost}:${appServerPort}`);
+app.listen(port, ()=>{
+    console.log(`http://localhost:${port}`);
 });
 function isDelete(session_id){
     let q= "Select tokens from sessions where session_id='"+session_id+"'";
@@ -285,4 +270,3 @@ function dotProduct(a,b) {
       }, 0); 
     return result; 
 } 
-// 1st training - "babbage:ft-personal-2023-02-28-08-37-45"
