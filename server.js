@@ -1,3 +1,4 @@
+
 const express = require('express');
 const { Configuration, OpenAIApi } = require("openai");
 const bodyParser = require('body-parser');
@@ -8,15 +9,21 @@ const csv = require("csv-parser");
 const session = require("express-session");
 const mysql = require("mysql");
 const MySQLStore = require('express-mysql-session')(session);
-const port=9000;
-
+const dotenv = require('dotenv');
+dotenv.config();
+const appserverport= process.env.CHATBOT_APPSERVER_PORT;
+const dbuser= process.env.CHATBOT_DB_USER;
+const dbpassword= process.env.CHATBOT_DB_PASSWORD;
+const db= process.env.CHATBOT_DB;
+const dbhost= process.env.CHATBOT_DB_HOST;
+const dbport= process.env.CHATBOT_DB_PORT;
 
 var options = {
-	host: '43.250.243.204',
-	port: 3306,
-	user: 'root',
-	password: 'root',
-	database: 'chatbot',   
+	host: dbhost,
+	port: dbport,
+	user: dbuser,
+	password: dbpassword,
+	database: db,   
     clearExpired: true,
     expiration: 1000*60*60*24,
     createDatabaseTable: true,
@@ -31,10 +38,10 @@ var options = {
 };
 var sessionStore = new MySQLStore(options);
 var connection = mysql.createConnection({
-    host     : '43.250.243.204',
-    user     : 'root',
-    password : 'root',
-    database : 'chatbot'
+    host     : dbhost,
+    user     : dbuser,
+    password : dbpassword,
+    database : db
   });
 connection.connect();
 
@@ -102,8 +109,8 @@ app.post('/',async (req,res)=>{
 app.get('/delete',async (req,res)=>{
     deleteMessages(req.sessionID);
 });
-app.listen(port, ()=>{
-    console.log(`http://localhost:${port}`);
+app.listen(appserverport, ()=>{
+    console.log(`http://localhost:${appserverport}`);
 });
 function isDelete(session_id){
     let q= "Select tokens from sessions where session_id='"+session_id+"'";
@@ -270,3 +277,4 @@ function dotProduct(a,b) {
       }, 0); 
     return result; 
 } 
+// 1st training - "babbage:ft-personal-2023-02-28-08-37-45"
