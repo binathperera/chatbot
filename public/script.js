@@ -72,7 +72,8 @@ async function sendDeleteCommand(){
 }
 async function ask(){
     let prompt=document.getElementById('chatbox').value;
-    data= {"prompt":prompt,"assistant":assistant};
+    let key=document.getElementById('key').value;
+    data= {"prompt":prompt,"assistant":assistant,"key":key};
     objDiv.innerHTML += "<b style='color:lightblue'>You&nbsp;</b> : "+ prompt+"<br><br>";
     objDiv.scrollTop = objDiv.scrollHeight;
     const settings = {

@@ -22,7 +22,7 @@ h1{
     margin-right: auto;
     margin-top: 10px;
 }
-input[type=text]{
+input[type=text]#chatbox{
     flex: 1;
     
     background-color: rgb(64, 65, 79);
@@ -85,4 +85,8 @@ body{
 #assistantSelectDiv{
     margin-left: auto;
     margin-right: 30px;
+}
+
+#keyDiv{
+    margin-left: 30px;
 }

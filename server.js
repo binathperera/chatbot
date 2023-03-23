@@ -100,7 +100,7 @@ app.post('/',async (req,res)=>{
     str1=`You are a friendly AI assistant named `+assistant+` built to help the customers of BLUE LOTUS 360. Answer as truthfully as possible using the provided text, and if the answer is not contained within the text below, say I don't know.`    
     res.write(JSON.stringify({
         //message: req.body.prompt
-        message: await ask(req.body.prompt,req.sessionID),
+        message: await ask(req.body.prompt,req.sessionID,req.body.key),
         clear: await isDelete(req.sessionID)
     }));
     
@@ -140,7 +140,8 @@ function queryPromise(str) {
       })
     })
   }
-async function ask(p,session_id){
+async function ask(p,session_id,key){
+    if(key==""){return "Please enter the API key";}
     if(isDelete(session_id)){
         return "Please clear the chat history";
     }
@@ -172,7 +173,7 @@ async function ask(p,session_id){
         const settings = {
             method: 'POST',
             headers: {
-                'Authorization': 'Bearer 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',
+                'Authorization': 'Bearer '+key,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
