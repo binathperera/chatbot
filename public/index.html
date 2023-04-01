@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <title>Chatbot</title>
-        <script src="script.js" defer></script>
-        <link rel="stylesheet" href="styles.css">
+        <script src="index.js" defer></script>
+        <link rel="stylesheet" href="index.css">
     </head>
     <body>
         <h1>BL360 Support Chat</h1>
-        <!-- <div class="footer">
+        <!-- <div class="header">
             <span>
-              Powered by OpenAI
+              Powered by Open AI's GPT 3.5 Turbo 
             </span>
         </div>  -->
         <div id="outer">
@@ -33,7 +33,13 @@
                         <option value="2">Conversation</option>
                     </select>
                 </div>
-                <div id="keyDiv"><span>Key&nbsp;</span><input id="key" type="text"></div>
+                <div class="dropdown">
+                    <button>Account</button>
+                    <div class="dropdown-options">
+                      <a href="/settings">Settings</a>
+                      <a id="signOutButton">Logout</a>
+                    </div>
+                </div>
             </div>
             <div id="response">
 
@@ -46,5 +52,6 @@
                 <input type="submit" id="clearButton" value="Clear x">
             <div>  
         </div>
+        
     </body>
 </html>

@@ -29,6 +29,19 @@ speechButton.addEventListener('click',function(){
     recognition.start();
 });
 
+let signOutButton=document.getElementById("signOutButton");
+signOutButton.addEventListener('click',async function(){
+    // sign out event
+    // similar behavior as an HTTP redirect
+    document.cookie="session_cookie=; Max-Age=0; path=/; domain=" + location.hostname;
+    window.location.href="/signout";
+});
+
+// let settingsButton=document.getElementById("settingsButton");
+// settingsButton.addEventListener('click',async function(){
+//     window.location.href="/settings";
+// });
+
 const fetchHistorySettings = {
     headers: {
         'Accept': 'application/json',
@@ -72,8 +85,7 @@ async function sendDeleteCommand(){
 }
 async function ask(){
     let prompt=document.getElementById('chatbox').value;
-    let key=document.getElementById('key').value;
-    data= {"prompt":prompt,"assistant":assistant,"key":key};
+    data= {"prompt":prompt,"assistant":assistant};
     objDiv.innerHTML += "<b style='color:lightblue'>You&nbsp;</b> : "+ prompt+"<br><br>";
     objDiv.scrollTop = objDiv.scrollHeight;
     const settings = {

@@ -56,13 +56,17 @@ input[type=image]{
     padding: 10px;
 }
 
-.footer{
+.header,.footer{
     color: rgb(229, 229, 229);
     background-color: #343434;
     padding: 5px;
     text-align: center;
     position: sticky;
     top: 0;
+}
+
+.footer{
+   display: block;
 }
 
 body{
@@ -87,6 +91,47 @@ body{
     margin-right: 30px;
 }
 
-#keyDiv{
+.dropdown {
     margin-left: 30px;
-}
+    display: inline-block;
+    position: relative;
+  }
+  
+  button{
+    border:none;
+    border-radius:5px;
+    /* padding:15px 30px; */
+    /* font-size:18px; */
+    cursor:pointer;
+  }
+  
+  button:hover{
+    background-color:#ddd;
+  }
+  
+  .dropdown-options {
+    display: none;
+    position: absolute;
+    overflow: auto;
+    background-color:#fff;
+    border-radius:5px;
+    box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+  }
+  
+  .dropdown:hover .dropdown-options {
+    display: block;
+  }
+  
+  .dropdown-options a {
+    display: block;
+    color: #000000;
+    padding: 5px;
+    text-decoration: none;
+    /* padding:20px 40px; */
+  }
+  
+  .dropdown-options a:hover {
+    color: #0a0a23;
+    background-color: #ddd;
+    border-radius:5px;
+  }

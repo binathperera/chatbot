@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>Login</title>
+        <link rel="stylesheet" href="settings.css">
+        <script src="settings.js" defer></script>
+    </head>
+    <body>
+        <a href="/index"> &lt Back to Home Page</a>
+        <h1>Chat Settings</h1>
+        
+        <div class="outer">
+            <h2>Account Info</h2>
+            <div class="inputfields">
+                <span>Username : </span><span id="usernameLabel"></span>
+                <span>Name</span>
+                <input type="text" id="name" >
+                <span>Password</span>
+                <input type="text" id="password">
+                <span>API key</span>
+                <input type="text" id="key">  
+            </div>
+            
+
+            <div id="buttongroup">
+                <input type="submit" value="Update Details" id="updateButton">
+                <input type="submit" value="Delete Account" id="deleteButton" style="background-color: red;">
+            </div>
+            <!-- <h2>Usage information</h2>
+            <table>
+                <th>
+                    <td>Year-Month</td>
+                    <td>Token Usage</td>
+                    <td>Cost</td>
+                    <td></td>
+                </th>
+                <tr></tr>
+            </table> -->
+        </div>
+    </body>
+</html>
