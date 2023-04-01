@@ -22,7 +22,7 @@ async function submit(username,password){
     let response= await fetch("/login",settings);
     let json=await response.json();
     if(json.status){
-        window.location.href = "/index";
+        window.location = "/index";
     }else{
         window.alert(json.message);
     }
