@@ -42,7 +42,8 @@ var connection = mysql.createConnection({
     host     : dbhost,
     user     : dbuser,
     password : dbpassword,
-    database : db
+    database : db,
+    timezone: 'utc'
   });
 connection.connect();
 
@@ -126,6 +127,7 @@ app.get('/settings/get',(req,res)=>{
 app.post('/user/update',(req,res)=>{
     res.writeHead(200,{"Content-Type":"application/json"}); 
     let q= `Update users set name='${req.body.name}' , password='${req.body.password}' , api_key='${req.body.key}' where username='${req.session['username']}'`;
+    req.session['key']=req.body.key;
     connection.query(q,(error,data)=>{
         if(error){
             console.log(error)
@@ -189,6 +191,18 @@ app.get('/history',(req,res)=>{
         if(error) console.log(error)
         else{
            data.push({"clear": isDelete(req.sessionID)});
+           res.json(data);
+        }
+    })
+});
+app.get('/tokenusage/:from/:to',(req,res)=>{
+    let fromDate=req.params.from;
+    let toDate=req.params.to;
+    let q= `Select * from datetoken where username='${req.session['username']}' and DATE(date)>='${fromDate}' and DATE(date)<='${toDate}'`;
+    connection.query(q,(error,data)=>{
+        if(error) console.log(error)
+        else{
+           console.log(data);
            res.json(data);
         }
     })
@@ -332,6 +346,7 @@ app.post('/',async (req,res)=>{
     //         res.end();
     //     }
     // });
+
     if(req.session['key']==null){
         res.write(JSON.stringify({
                         message: "Sorry, coudn't obtain your api key",
@@ -345,8 +360,7 @@ app.post('/',async (req,res)=>{
         }));
         res.end();
     }
-    
-    
+
 });
 
 
@@ -383,7 +397,10 @@ function queryPromise(str) {
   }
 
 async function ask(p,session_id,key,username){
-    if(key==""){return "Please enter the API key";}
+    let stat=await validate(key);
+    if(stat!=null){
+        return stat;
+    }
     if(isDelete(session_id)){
         return "Please clear the chat history";
     }
@@ -455,7 +472,7 @@ async function ask(p,session_id,key,username){
     return r;
 }
     
-// Cost
+// Cost per 1000 tokens
 // text-babbage-001 0.0005  4x cheaper than gpt 3.5 turbo
 // gpt-3.5-turbo    0.002 10x cheaper than davinci
 // text-davinci-003 0.02
@@ -510,7 +527,6 @@ async function deleteMessages(session_id){
 
 
 async function getEmbeddings(p,key){
-    
     // let data= { 
     //     model: "text-embedding-ada-002",
     //     input: p
@@ -576,4 +592,30 @@ function dotProduct(a,b) {
       }, 0); 
     return result; 
 } 
+
+/* Will return 1 for incorrect key. 2 if token limit has been exceeded. 0 if the key can be used. */
+async function validate(key){
+    let chat=new Array();
+    chat.push({"role":"system","content": "You are a chatbot"});
+    chat.push({"role":"user", "content": "Hi"});
+    let data= { 
+        model: "gpt-3.5-turbo",
+        messages: chat
+    }
+    const settings = {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer '+key,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    };
+    const fetchResponse = await fetch(`https://api.openai.com/v1/chat/completions`, settings);
+    const obj = await fetchResponse.json();
+    try{
+        return obj.error.message;
+    }catch(e){
+        return null;
+    }
+}
 // 1st training - "babbage:ft-personal-2023-02-28-08-37-45"

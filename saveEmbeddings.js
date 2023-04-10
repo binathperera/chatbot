@@ -3,8 +3,8 @@ const fs = require("fs");
 const csv = require("csv-parser");
 
 const configuration = new Configuration({
-    organization: "org-u6MOo3CKEN48sjobAb7wi5Ww",
-    apiKey: "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",
+    organization: process.env.CHATBOT_ORG,
+    apiKey: process.env.CHATBOT_ORG_KEY,
 });
 const openai = new OpenAIApi(configuration);
 

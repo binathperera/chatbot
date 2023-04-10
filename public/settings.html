@@ -28,16 +28,22 @@
                 <input type="submit" value="Update Details" id="updateButton">
                 <input type="submit" value="Delete Account" id="deleteButton" style="background-color: red;">
             </div>
-            <!-- <h2>Usage information</h2>
-            <table>
-                <th>
-                    <td>Year-Month</td>
-                    <td>Token Usage</td>
-                    <td>Cost</td>
-                    <td></td>
-                </th>
-                <tr></tr>
-            </table> -->
+
+
+            <h2>Usage information</h2>
+            <div class="time-period-div">
+                <label for="fromdate">From</label>
+                <input type="date" id="fromdate">
+                <label for="todate">To</label>
+                <input type="date" id="todate">
+                <!-- <input type="button" id="date-submit-button" value="Load Table"> -->
+            </div>
+            <table id="usageTable">
+                <tr id="header">
+                    <th>Date</th>
+                    <th>Token Usage</th>
+                </tr>
+            </table>
         </div>
     </body>
 </html>

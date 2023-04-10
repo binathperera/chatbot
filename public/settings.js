@@ -10,6 +10,22 @@ updateButton.addEventListener('click',function(){updateUserDetails(nameTextField
 let deleteButton=document.getElementById('deleteButton');
 deleteButton.addEventListener('click',function(){deleteUser()});
 
+let fromDate=document.getElementById('fromdate');
+fromDate.addEventListener('change',function(){LoadTable(fromDate.value,toDate.value)});
+
+let toDate=document.getElementById('todate');
+toDate.addEventListener('change',function(){LoadTable(fromDate.value,toDate.value)});
+
+setDate();
+function setDate(){
+    let d= new Date();
+    let year=d.getFullYear();
+    let month=String(d.getMonth()+1).padStart(2, '0');;
+    let day=String(d.getDate()).padStart(2, '0');;
+    fromDate.value=String(`${year}-${month}-${day}`)
+    toDate.value=String(`${year}-${month}-${day}`)
+    LoadTable(fromDate.value,toDate.value)
+}
 async function getUserDetails(){
     let response= await fetch("/settings/get");
     let json=await response.json();
@@ -63,5 +79,35 @@ async function deleteUser(){
         }
     }else{
         window.alert("Username did not match. Account deletion canceled");
+    }
+}
+
+let table = document.getElementById("usageTable")
+
+async function LoadTable(from,to){
+    console.log(from);
+    console.log(to);
+    let response= await fetch(`/tokenusage/${from}/${to}`);
+    let json=await response.json();
+    let firstrow= table.firstElementChild;
+    table.innerHTML="";
+    table.appendChild(firstrow);
+    if(json.length==0){
+        let row= document.createElement("tr");
+        let cell1=document.createElement("td");
+        cell1.setAttribute("colspan",2);
+        cell1.innerHTML="No data to display";
+        row.appendChild(cell1);
+        table.appendChild(row);
+    }
+    for(let i=0;i<json.length;i++){
+        let row= document.createElement("tr");
+        let cell1=document.createElement("td");
+        let cell2=document.createElement("td");
+        cell1.innerHTML=(json[i].date).substring(0,10);
+        cell2.innerHTML=json[i].tokens;
+        row.appendChild(cell1);
+        row.appendChild(cell2);
+        table.appendChild(row);
     }
 }
